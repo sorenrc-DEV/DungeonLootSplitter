@@ -1,75 +1,145 @@
 /* Global Reset */
-* {
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+
+*{
+box-sizing:border-box;
+font-family:Arial, sans-serif;
 }
 
-body {
-    margin: 0;
-    background-color: #f4f4f4;
+body{
+margin:0;
+background-color:#1b1b1b;
+color:#f5f5f5;
 }
 
 /* Header */
-header {
-    background-color: #222;
-    color: white;
-    padding: 1rem;
-    text-align: center;
+
+header{
+background-color:#2a2a2a;
+color:#ff4da6;
+padding:1rem;
+text-align:center;
 }
 
-/* Main Layout - Mobile First */
-main {
-    padding: 1rem;
+/* Layout */
+
+main{
+padding:1rem;
 }
 
-.panel {
-    background-color: white;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Panels */
+
+.panel{
+background-color:#2b2b2b;
+padding:1rem;
+margin-bottom:1rem;
+border-radius:6px;
+border:1px solid #444;
 }
 
-.panel h2 {
-    margin-top: 0;
+.panel h2{
+margin-top:0;
+color:#ff4da6;
 }
 
-/* Form Styling */
-label {
-    display: block;
-    margin-top: 0.75rem;
+/* Forms */
+
+label{
+display:block;
+margin-top:0.75rem;
 }
 
-input {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.25rem;
+input{
+width:100%;
+padding:0.5rem;
+margin-top:0.25rem;
+border-radius:4px;
+border:none;
 }
 
-button {
-    width: 100%;
-    padding: 0.5rem;
-    margin-top: 1rem;
-    cursor: pointer;
+/* Buttons */
+
+button{
+width:100%;
+padding:0.6rem;
+margin-top:1rem;
+cursor:pointer;
+border:none;
+border-radius:4px;
+background-color:#2ecc71;
+font-weight:bold;
 }
 
-/* Error Styling */
-#lootError,
-#splitError {
-    color: red;
-    margin-top: 0.5rem;
+button:hover{
+background-color:#27ae60;
 }
 
-/* Breakpoint ≥768px */
-@media (min-width: 768px) {
+/* Error Messages */
 
-    main {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
+#lootError{
+color:#ff6b6b;
+margin-top:0.5rem;
+}
 
-    .reflection {
-        grid-column: span 2;
-    }
+/* Loot List Header */
+
+.lootHeader{
+display:grid;
+grid-template-columns:2fr 1fr 1fr;
+font-weight:bold;
+padding-bottom:5px;
+border-bottom:1px solid #555;
+margin-bottom:5px;
+color:#7dffb3;
+}
+
+/* Loot Items */
+
+#lootList{
+list-style:none;
+padding:0;
+margin:0;
+}
+
+#lootList li{
+display:grid;
+grid-template-columns:2fr 1fr 1fr;
+align-items:center;
+padding:6px 0;
+border-bottom:1px solid #444;
+}
+
+/* Remove Button */
+
+#lootList button{
+width:auto;
+background-color:#ff4da6;
+color:white;
+padding:5px 10px;
+}
+
+#lootList button:hover{
+background-color:#e84393;
+}
+
+/* Reflection Section */
+
+.reflection{
+font-size:0.9rem;
+line-height:1.5;
+}
+
+/* Responsive Layout */
+
+@media (min-width:768px){
+
+main{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:1rem;
+}
+
+.reflection{
+grid-column:span 2;
+}
+
 }
