@@ -2,9 +2,7 @@
 // Dungeon Loot Splitter Script
 // ===============================
 
-// Persistent array to store all loot items
-// This array holds objects with name + value properties
-// It remains in memory while the page is active
+// Persistent array to store loot objects
 const lootArray = [];
 
 
@@ -12,148 +10,172 @@ const lootArray = [];
 // Event Listeners
 // ===============================
 
-// Button click triggers addLoot function
 document.getElementById("addLootBtn").addEventListener("click", addLoot);
-
-// Button click triggers splitLoot function
 document.getElementById("splitLootBtn").addEventListener("click", splitLoot);
 
 
 // ===============================
 // ADD LOOT FUNCTION
 // ===============================
-function addLoot() {
 
-    // Access DOM elements using getElementById (assignment requirement)
-    const lootNameInput = document.getElementById("lootName");
-    const lootValueInput = document.getElementById("lootValue");
-    const errorDisplay = document.getElementById("lootError");
+function addLoot(){
 
-    // Retrieve and clean user input
-    const name = lootNameInput.value.trim();
-    const value = parseFloat(lootValueInput.value);
+const lootNameInput = document.getElementById("lootName");
+const lootValueInput = document.getElementById("lootValue");
+const errorDisplay = document.getElementById("lootError");
 
-    // Clear previous error messages
-    errorDisplay.textContent = "";
+const name = lootNameInput.value.trim();
+const value = parseFloat(lootValueInput.value);
 
-    // -------------------------------
-    // Input Validation (Conditional Logic)
-    // -------------------------------
+errorDisplay.textContent = "";
 
-    // Ensure name is not empty
-    if (name === "") {
-        errorDisplay.textContent = "Loot name cannot be empty.";
-        return; // Stop execution if invalid
-    }
+// Validation
 
-    // Ensure value is a number
-    if (isNaN(value)) {
-        errorDisplay.textContent = "Loot value must be a valid number.";
-        return;
-    }
+if(name === ""){
+errorDisplay.textContent = "Loot name cannot be empty.";
+return;
+}
 
-    // Prevent negative values
-    if (value < 0) {
-        errorDisplay.textContent = "Loot value cannot be negative.";
-        return;
-    }
+if(isNaN(value)){
+errorDisplay.textContent = "Loot value must be a number.";
+return;
+}
 
-    // -------------------------------
-    // Store Object in Array
-    // -------------------------------
+if(value < 0){
+errorDisplay.textContent = "Loot value cannot be negative.";
+return;
+}
 
-    // Push new loot object into persistent array
-    lootArray.push({
-        name: name,
-        value: value
-    });
+// Add object to array
 
-    // Clear form inputs after successful submission
-    lootNameInput.value = "";
-    lootValueInput.value = "";
+lootArray.push({
+name: name,
+value: value
+});
 
-    // Re-render loot list to reflect updated array
-    renderLoot();
+// Clear inputs
 
-    // Reset split results when new loot is added
-    document.getElementById("finalTotal").textContent = "0.00";
-    document.getElementById("lootPerMember").textContent = "0.00";
+lootNameInput.value = "";
+lootValueInput.value = "";
+
+// Update UI
+
+renderLoot();
+
 }
 
 
 // ===============================
-// RENDER LOOT FUNCTION
+// RENDER LOOT LIST
 // ===============================
-function renderLoot() {
 
-    const lootList = document.getElementById("lootList");
-    const totalLootDisplay = document.getElementById("totalLoot");
+function renderLoot(){
 
-    // Clear previous list before rebuilding
-    lootList.innerHTML = "";
+const lootList = document.getElementById("lootList");
+const totalLootDisplay = document.getElementById("totalLoot");
 
-    let total = 0;
+lootList.innerHTML = "";
 
-    // Traditional for loop required by assignment
-    // Loop iterates through array to:
-    // 1. Dynamically create list elements
-    // 2. Calculate running total
-    for (let i = 0; i < lootArray.length; i++) {
+let total = 0;
 
-        const li = document.createElement("li");
+// Traditional for loop
 
-        // Format value to 2 decimal places (currency formatting)
-        li.textContent = lootArray[i].name + 
-            " - $" + lootArray[i].value.toFixed(2);
+for(let i = 0; i < lootArray.length; i++){
 
-        lootList.appendChild(li);
+const li = document.createElement("li");
 
-        total += lootArray[i].value;
-    }
+// Name
+const nameSpan = document.createElement("span");
+nameSpan.textContent = lootArray[i].name;
 
-    // Update total display in DOM
-    totalLootDisplay.textContent = total.toFixed(2);
+// Value
+const valueSpan = document.createElement("span");
+valueSpan.textContent = "$" + lootArray[i].value.toFixed(2);
+
+// Remove button
+const removeBtn = document.createElement("button");
+removeBtn.textContent = "Remove";
+
+// Remove item when clicked
+removeBtn.addEventListener("click", function(){
+removeLoot(i);
+});
+
+li.appendChild(nameSpan);
+li.appendChild(valueSpan);
+li.appendChild(removeBtn);
+
+lootList.appendChild(li);
+
+// Add to total
+total += lootArray[i].value;
+
+}
+
+// Update total display
+
+totalLootDisplay.textContent = total.toFixed(2);
+
+}
+
+
+// ===============================
+// REMOVE LOOT FUNCTION
+// ===============================
+
+function removeLoot(index){
+
+lootArray.splice(index, 1);
+
+renderLoot();
+
 }
 
 
 // ===============================
 // SPLIT LOOT FUNCTION
 // ===============================
-function splitLoot() {
 
-    const partySizeInput = document.getElementById("partySize");
-    const splitError = document.getElementById("splitError");
-    const finalTotal = document.getElementById("finalTotal");
-    const lootPerMember = document.getElementById("lootPerMember");
+function splitLoot(){
 
-    splitError.textContent = "";
+const partySizeInput = document.getElementById("partySize");
+const splitError = document.getElementById("splitError");
+const finalTotal = document.getElementById("finalTotal");
+const lootPerMember = document.getElementById("lootPerMember");
 
-    const partySize = parseInt(partySizeInput.value);
+const partySize = parseInt(partySizeInput.value);
 
-    // Validate party size
-    if (isNaN(partySize) || partySize < 1) {
-        splitError.textContent = "Party size must be at least 1.";
-        return;
-    }
+splitError.textContent = "";
 
-    // Prevent splitting if no loot exists
-    if (lootArray.length === 0) {
-        splitError.textContent = "No loot to split.";
-        return;
-    }
+// Validate party size
 
-    let total = 0;
+if(isNaN(partySize) || partySize < 1){
+splitError.textContent = "Party size must be at least 1.";
+return;
+}
 
-    // Traditional for loop to calculate total again
-    // (demonstrates independent calculation logic)
-    for (let i = 0; i < lootArray.length; i++) {
-        total += lootArray[i].value;
-    }
+if(lootArray.length === 0){
+splitError.textContent = "No loot to split.";
+return;
+}
 
-    // Divide total evenly among party members
-    const splitAmount = total / partySize;
+let total = 0;
 
-    // Update DOM with formatted values
-    finalTotal.textContent = total.toFixed(2);
-    lootPerMember.textContent = splitAmount.toFixed(2);
+// Loop to calculate total
+
+for(let i = 0; i < lootArray.length; i++){
+
+total += lootArray[i].value;
+
+}
+
+// Calculate split
+
+const splitAmount = total / partySize;
+
+// Update DOM
+
+finalTotal.textContent = total.toFixed(2);
+lootPerMember.textContent = splitAmount.toFixed(2);
+
 }
