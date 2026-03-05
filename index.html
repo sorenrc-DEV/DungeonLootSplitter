@@ -2,63 +2,97 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Carley Sorensen">
-    <title>Dungeon Loot Splitter</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Carley Sorensen">
+<title>Dungeon Loot Splitter</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>Dungeon Loot Splitter</h1>
-    </header>
+<header>
+<h1>Dungeon Loot Splitter</h1>
+</header>
 
-    <main>
+<main>
 
-        <section class="panel">
-            <h2>Party Setup</h2>
-            <label for="partySize">Number of Party Members:</label>
-            <input type="number" id="partySize" min="1">
-        </section>
+<section class="panel">
+<h2>Party Setup</h2>
 
-        <section class="panel">
-            <h2>Add Loot</h2>
-            <label for="lootName">Loot Name:</label>
-            <input type="text" id="lootName">
+<label for="partySize">Number of Party Members:</label>
+<input type="number" id="partySize" min="1">
 
-            <label for="lootValue">Loot Value:</label>
-            <input type="number" id="lootValue" step="0.01">
+</section>
 
-            <button id="addLootBtn">Add Loot</button>
-            <p id="lootError" aria-live="polite"></p>
-        </section>
+<section class="panel">
 
-        <section class="panel">
-            <h2>Loot List</h2>
-            <ul id="lootList"></ul>
-            <p>Total Loot: $<span id="totalLoot">0.00</span></p>
-        </section>
+<h2>Add Loot</h2>
 
-        <section class="panel">
-            <h2>Split Loot</h2>
-            <button id="splitLootBtn">Split Loot</button>
-            <p>Total Loot: $<span id="finalTotal">0.00</span></p>
-            <p>Loot Per Party Member: $<span id="lootPerMember">0.00</span></p>
-        </section>
+<label for="lootName">Loot Name:</label>
+<input type="text" id="lootName">
 
-        <section class="panel reflection">
-            <h2>Logic Explanation</h2>
-            <p>
-                This application uses a persistent array called lootArray to store loot objects. Each object contains a name and value property. The addLoot() function validates user input using conditional if statements before pushing a new object into the array. A traditional for loop is used inside renderLoot() to dynamically generate list elements and calculate the running total. Another loop in splitLoot() calculates the total again before dividing it evenly among party members. Conditional logic prevents invalid inputs and handles edge cases such as empty loot or invalid party size.
-            </p>
-        </section>
+<label for="lootValue">Loot Value:</label>
+<input type="number" id="lootValue" step="0.01">
 
-    </main>
+<button id="addLootBtn">Add Loot</button>
 
-    <script src="js/script.js"></script>
+<p id="lootError" aria-live="polite"></p>
+
+</section>
+
+<section class="panel">
+
+<h2>Loot List</h2>
+
+<div class="lootHeader">
+<span>Name</span>
+<span>Value</span>
+<span>Remove</span>
+</div>
+
+<ul id="lootList"></ul>
+
+<p>Total Loot: $<span id="totalLoot">0.00</span></p>
+
+</section>
+
+<section class="panel">
+
+<h2>Split Loot</h2>
+
+<button id="splitLootBtn">Split Loot</button>
+<p id="splitError"></p>
+<p>Total Loot: $<span id="finalTotal">0.00</span></p>
+<p>Loot Per Party Member: $<span id="lootPerMember">0.00</span></p>
+
+</section>
+
+<section class="panel reflection">
+
+<h2>Logic Explanation</h2>
+
+<p>
+This program stores all loot items inside a persistent array called lootArray. 
+Each item in the array is an object that contains a name and a value. 
+When the user clicks the Add Loot button, the program checks the inputs using 
+if statements to make sure the name is not empty and the value is a valid number. 
+If the inputs are valid, the loot item is added to the array. 
+
+A traditional for loop is used to go through the array and display each item 
+in the loot list while also calculating the total value of all loot. 
+Another loop calculates the total again when the Split Loot button is pressed 
+and divides the amount by the number of party members. 
+
+The program updates the page dynamically by creating list elements with 
+JavaScript so the user can see the loot items and totals update in real time.
+</p>
+
+</section>
+
+</main>
+
+<script src="js/script.js"></script>
+
 </body>
-
-
 </html>
